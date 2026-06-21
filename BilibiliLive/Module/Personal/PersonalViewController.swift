@@ -66,6 +66,7 @@ class PersonalViewController: UIViewController, BLTabBarContentVCProtocol {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
+        collectionView.contentInset.top = 15
         return collectionView
     }()
 
