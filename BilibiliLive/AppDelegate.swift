@@ -5,7 +5,6 @@
 //  Created by Etan on 2021/3/27.
 //
 
-import AVFoundation
 import CocoaLumberjackSwift
 import Kingfisher
 import UIKit
@@ -21,7 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AccountManager.shared.bootstrap()
         BiliBiliUpnpDMR.shared.start()
         URLSession.shared.configuration.headers.add(.userAgent("BiLiBiLi AppleTV Client/1.0.0 (github/yichengchen/ATV-Bilibili-live-demo)"))
-        window = UIWindow()
+        return true
+    }
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let configuration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        configuration.delegateClass = SceneDelegate.self
+        return configuration
+    }
+
+    func makeRootViewController() -> UIViewController {
         if ApiRequest.isLogin() {
             if let expireDate = ApiRequest.getToken()?.expireDate {
                 let now = Date()
@@ -31,17 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 ApiRequest.refreshToken()
             }
-            window?.rootViewController = BLTabBarViewController()
-        } else {
-            window?.rootViewController = LoginViewController.create()
+            return BLTabBarViewController()
         }
-        WebRequest.requestIndex()
-        window?.makeKeyAndVisible()
-        return true
-    }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+        return LoginViewController.create()
     }
 
     func showLogin() {
