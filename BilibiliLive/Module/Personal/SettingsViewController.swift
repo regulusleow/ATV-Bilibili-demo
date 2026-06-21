@@ -371,6 +371,8 @@ class SettingsSwitchCell: BLMotionCollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(descLabel)
         contentView.layer.cornerRadius = 10
+        titleLabel.font = .systemFont(ofSize: 29)
+        descLabel.font = .systemFont(ofSize: 29)
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(20)
